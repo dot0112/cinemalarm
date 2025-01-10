@@ -2,7 +2,7 @@ const axios = require("axios");
 const FormData = require("form-data");
 
 /**
- * 반환 날짜 형식
+ * 반환 날짜 형식 (: LOTTE CINEMA 형식)
  * {
  *  date: [
  *      `${year}-${month}-${date}`
@@ -21,7 +21,7 @@ const dateC = async () => {
         const response = [];
         result = response;
     } catch (err) {
-        global.errorLogger(err, req);
+        global.errorLogger(err);
     }
     return result;
 };
@@ -32,11 +32,29 @@ const dateC = async () => {
  */
 const dateL = async () => {
     const result = [];
+    const formData = new FormData();
+    formData.append("paramList", JSON.stringify(global.bodyGenerator("L")));
     try {
-        const response = [];
-        result = response;
+        const response = await axios.post(
+            `${process.env.LOTTECINEMA_URL}`,
+            formData,
+            {
+                headers: {
+                    ...formData.getHeaders(),
+                },
+            }
+        );
+        if (response.status === 200) {
+            const data = response.data;
+            const dateRaw = data.MoviePlayDates.Items.Items;
+            result.push(
+                ...dateRaw
+                    .filter((e) => e.IsPlayDate === "Y")
+                    .map((e) => e.PlayDate)
+            );
+        }
     } catch (err) {
-        global.errorLogger(err, req);
+        global.errorLogger(err);
     }
     return result;
 };
@@ -47,11 +65,21 @@ const dateL = async () => {
  */
 const dateM = async () => {
     const result = [];
+    const data = global.bodyGenerator("M");
     try {
-        const response = [];
-        result = response;
+        const response = await axios.post(`${process.env.MEGABOX_URL}`, data);
+        if (response.status === 200) {
+            // response 처리
+            const data = response.data;
+            const dateRaw = data.movieFormDeList;
+            result.push(
+                ...dateRaw.map((e) =>
+                    e.playDe.replace(/^(\d{4})(\d{2})(\d{2})$/, "$1-$2-$3")
+                )
+            );
+        }
     } catch (err) {
-        global.errorLogger(err, req);
+        global.errorLogger(err);
     }
     return result;
 };
@@ -73,9 +101,11 @@ const getDates = async (mode) => {
         date: [],
     };
     try {
-        if (mode) {
+        if (mode && dateFunctions[mode]) {
             const response = await dateFunctions[mode]();
             results.date = response;
+        } else {
+            console.warn(`Invalid mode: ${mode}`);
         }
     } catch (err) {
         global.errorLogger(err);
