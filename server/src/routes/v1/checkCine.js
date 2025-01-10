@@ -14,8 +14,7 @@ router.get("/stat", (req, res) => {
 
 // POST 요청 처리
 router.post("/date", (req, res) => {
-    console.log(req.body); // 요청 본문 출력
-    res.json({ message: "Date endpoint hit", received: req.body });
+    checkCineController.date(req, res);
 });
 
 router.post("/cinema", (req, res) => {
