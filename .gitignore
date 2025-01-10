@@ -170,4 +170,7 @@ dist
 
 
 # Key Files #
-.pem
+*.pem
+
+# dotenv environment variable files
+*.env
