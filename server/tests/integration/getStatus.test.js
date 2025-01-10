@@ -5,6 +5,10 @@ const axios = require("axios");
 jest.mock("axios");
 
 describe("getStatus 통합 테스트", () => {
+    beforeEach(() => {
+        global.errorLogger.mockClear();
+    });
+
     test("모든 API의 동작 여부를 확인한다", async () => {
         // mock 된 axios의 응답
         axios.post
@@ -12,7 +16,13 @@ describe("getStatus 통합 테스트", () => {
             .mockResolvedValueOnce({ status: 200 })
             .mockResolvedValueOnce({ status: 200 });
 
+        global.bodyGenerator
+            .mockResolvedValueOnce({})
+            .mockResolvedValueOnce({});
+
         const result = await statService.getStatus();
+
+        expect(global.errorLogger).not.toHaveBeenCalled();
 
         // 결과가 { C: false(구현 전), L: true, M: true }일 것이라 예상
         expect(result).toEqual({ C: false, L: true, M: true });
@@ -26,6 +36,8 @@ describe("getStatus 통합 테스트", () => {
             .mockResolvedValueOnce({ status: 200 });
 
         const result = await statService.getStatus();
+
+        expect(global.errorLogger).toHaveBeenCalled();
 
         // 결과는 { C: false(구현 전), L: false, M: true }
         expect(result).toEqual({ C: false, L: false, M: true });
