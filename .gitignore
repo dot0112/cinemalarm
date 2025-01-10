@@ -172,5 +172,8 @@ dist
 # Key Files #
 *.pem
 
-# dotenv environment variable files
+# dotenv environment variable files #
 *.env
+
+# temp directory #
+temp/

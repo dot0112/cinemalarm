@@ -19,7 +19,7 @@ const dateC = async () => {
     const result = [];
     try {
         const response = [];
-        result = response;
+        // result = response;
     } catch (err) {
         global.errorLogger(err);
     }
