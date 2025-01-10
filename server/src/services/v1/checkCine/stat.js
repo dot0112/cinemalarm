@@ -65,13 +65,18 @@ const statFunctions = [statC, statL, statM];
  * @returns {Object} - { C: boolean, L: boolean, M: boolean } 각 API의 동작 여부
  */
 const getStatus = async () => {
-    let results = {};
+    let results = { C: false, L: false, M: false };
     try {
         const promises = statFunctions.map((f) => f());
-        const responses = await Promise.all(promises);
+        const responses = await Promise.allSettled(promises);
 
-        responses.forEach((response) => {
-            results = { ...results, ...response };
+        responses.forEach((response, index) => {
+            if (response.status === "fulfilled") {
+                results = { ...results, ...response.value };
+            } else {
+                console.warn(`API ${index} failed:`, response.reason);
+                global.errorLogger(response.reason);
+            }
         });
     } catch (err) {
         global.errorLogger(err);
