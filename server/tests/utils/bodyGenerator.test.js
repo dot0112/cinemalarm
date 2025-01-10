@@ -1,10 +1,10 @@
 const bodyGenerator = require("../../src/utils/bodyGenerator"); // 실제 경로에 맞게 조정
 
-beforeAll(() => {
-    global.dateGenerator = jest.fn().mockReturnValue("19700101");
-});
-
 describe("bodyGenerator 테스트", () => {
+    beforeAll(() => {
+        global.dateGenerator = jest.fn().mockReturnValue("19700101");
+    });
+
     test("LOTTE CINEMA - 기본 형식", () => {
         const result = bodyGenerator.bodyGenerator("L");
         expect(result).toEqual({
