@@ -68,7 +68,6 @@ const dateM = async () => {
     try {
         const response = await axios.post(`${process.env.MEGABOX_URL}`, data);
         if (response.status === 200) {
-            // response 처리
             const data = response.data;
             const dateRaw = data.movieFormDeList;
             result.push(
