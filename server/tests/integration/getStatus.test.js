@@ -1,8 +1,9 @@
-global.errorLogger = jest.fn();
-global.bodyGenerator = jest.fn();
-const statService = require("../../src/services/v1/checkCine/stat");
+const { getStatus } = require("../../src/services/v1/checkCine/stat");
 const axios = require("axios");
 jest.mock("axios");
+
+global.errorLogger = jest.fn();
+global.bodyGenerator = jest.fn();
 
 describe("getStatus 통합 테스트", () => {
     beforeEach(() => {
@@ -20,7 +21,7 @@ describe("getStatus 통합 테스트", () => {
             .mockResolvedValueOnce({})
             .mockResolvedValueOnce({});
 
-        const result = await statService.getStatus();
+        const result = await getStatus();
 
         expect(global.errorLogger).not.toHaveBeenCalled();
 
@@ -35,7 +36,7 @@ describe("getStatus 통합 테스트", () => {
             .mockRejectedValueOnce(new Error("API 오류"))
             .mockResolvedValueOnce({ status: 200 });
 
-        const result = await statService.getStatus();
+        const result = await getStatus();
 
         expect(global.errorLogger).toHaveBeenCalled();
 
