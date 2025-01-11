@@ -19,7 +19,6 @@ const dateC = async () => {
     const result = [];
     try {
         const response = [];
-        // result = response;
     } catch (err) {
         global.errorLogger(err);
     }
@@ -97,20 +96,20 @@ const dateFunctions = {
  * @returns {Array} - 선택 가능 날짜 리스트
  */
 const getDates = async (mode) => {
-    let results = {
+    let result = {
         date: [],
     };
     try {
         if (mode && dateFunctions[mode]) {
             const response = await dateFunctions[mode]();
-            results.date = response;
+            result.date = response;
         } else {
             console.warn(`Invalid mode: ${mode}`);
         }
     } catch (err) {
         global.errorLogger(err);
     }
-    return results;
+    return result;
 };
 
 module.exports = { getDates, dateC, dateL, dateM };
