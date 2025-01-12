@@ -16,8 +16,8 @@ const movieModels = {
 
 const modelKeys = {
     C: [],
-    L: [RepresentationMovieCode],
-    M: [movieNo],
+    L: ["RepresentationMovieCode"],
+    M: ["movieNo"],
 };
 
 const hashWithMD5 = (data) => {
@@ -55,7 +55,7 @@ const compareSavedHash = async (mode, data) => {
 const updateData = async (mode, data) => {
     let count = 0;
     try {
-        const compareResult = compareSavedHash(mode, data);
+        const compareResult = await compareSavedHash(mode, data);
 
         if (!compareResult) {
             if (data.length > 0) {
@@ -104,11 +104,35 @@ const updateMovieC = async () => {
 
 const updateMovieL = async () => {
     let count = 0;
+    const formData = new FormData();
+    formData.append("paramList", JSON.stringify(global.bodyGenerator("L")));
     try {
-        const response = [];
-        const data = response;
+        const response = await axios.post(
+            `${process.env.LOTTECINEMA_URL}`,
+            formData,
+            {
+                headers: {
+                    ...formData.getHeaders(),
+                },
+            }
+        );
+        if (response.status === 200) {
+            const data = [];
+            const dataRaw = response.data;
+            const movieRaws = dataRaw.Movies.Movies.Items;
 
-        count = await updateData("L", data);
+            for (const movieRaw of movieRaws) {
+                data.push({
+                    RepresentationMovieCode: movieRaw.RepresentationMovieCode,
+                    MovieNameKR: movieRaw.MovieNameKR,
+                    PosterURL: movieRaw.PosterURL,
+                    ViewGradeNameKR: movieRaw.ViewGradeNameKR,
+                    PlayTime: movieRaw.PlayTime,
+                });
+            }
+
+            count = await updateData("L", data);
+        }
     } catch (err) {
         global.errorLogger(err);
     }
@@ -117,11 +141,29 @@ const updateMovieL = async () => {
 
 const updateMovieM = async () => {
     let count = 0;
+    const bodyData = global.bodyGenerator("M");
     try {
-        const response = [];
-        const data = response;
+        const response = await axios.post(
+            `${process.env.MEGABOX_URL}`,
+            bodyData
+        );
+        if (response.status === 200) {
+            const data = [];
+            const dataRaw = response.data;
+            const movieRaws = [...dataRaw.movieList, ...dataRaw.crtnMovieList];
 
-        count = await updateData("M", data);
+            for (const movieRaw of movieRaws) {
+                data.push({
+                    movieNo: movieRaw.movieNo,
+                    movieNm: movieRaw.movieNm,
+                    admisClassCdNm: movieRaw.admisClassCdNm,
+                    playTime: movieRaw.playTime,
+                    movieImgPath: movieRaw.movieImgPath,
+                });
+            }
+
+            count = await updateData("M", data);
+        }
     } catch (err) {
         global.errorLogger(err);
     }
