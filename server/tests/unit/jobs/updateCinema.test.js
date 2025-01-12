@@ -1,4 +1,5 @@
 require("../../../src/utils/errorLogger");
+global.bodyGenerator = jest.fn();
 
 const {
     updateCinemaC,
@@ -16,8 +17,6 @@ const dotenv = require("dotenv");
 jest.mock("axios");
 jest.mock("form-data");
 jest.mock("../../../src/models/meta");
-
-global.bodyGenerator = jest.fn();
 
 dotenv.config({ path: "./config/envs/.env" });
 

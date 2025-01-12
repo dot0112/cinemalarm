@@ -21,7 +21,7 @@ const modelKeys = {
 };
 
 const hashWithMD5 = (data) => {
-    return crypto.createHash("md5").update(data).digest("hex");
+    return crypto.createHash("md5").update(JSON.stringify(data)).digest("hex");
 };
 
 const compareSavedHash = async (mode, data) => {
@@ -170,4 +170,10 @@ const updateMovieM = async () => {
     console.log(`Movie:{MEGABOX} - ${count} objects updated`);
 };
 
-module.exports = { updateMovieC, updateMovieL, updateMovieM };
+module.exports = {
+    updateMovieC,
+    updateMovieL,
+    updateMovieM,
+    updateData,
+    compareSavedHash,
+};
