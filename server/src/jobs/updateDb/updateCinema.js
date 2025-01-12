@@ -27,7 +27,7 @@ const modelKeys = {
  * @returns {String} - 해싱 결과
  */
 const hashWithMD5 = (data) => {
-    return crypto.createHash("md5").update(data).digest("hex");
+    return crypto.createHash("md5").update(JSON.stringify(data)).digest("hex");
 };
 
 /**
@@ -213,4 +213,10 @@ const updateCinemaM = async () => {
     console.log(`Cinema:{MEGABOX} - ${count} objects updated`);
 };
 
-module.exports = { updateCinemaC, updateCinemaL, updateCinemaM };
+module.exports = {
+    updateCinemaC,
+    updateCinemaL,
+    updateCinemaM,
+    updateData,
+    compareSavedHash,
+};
