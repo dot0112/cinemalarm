@@ -37,20 +37,23 @@ const hashWithMD5 = (data) => {
  * @returns {Boolean} - 일치 여부
  */
 const compareSavedHash = async (mode, data) => {
+    let result = false;
     const hash = hashWithMD5(data);
 
     try {
         const metadata = await metaModel.findOne({ multiplex: mode });
-        const savedHash = metadata ? metadata.dataHash : "";
+        const savedHash = metadata ? metadata.dataHashCinema ?? "" : "";
 
-        if (savedHash !== hash) {
+        result = savedHash === hash;
+
+        if (!result) {
             if (metadata) {
-                metadata.dataHash = hash;
+                metadata.dataHashCinema = hash;
                 await metadata.save();
             } else {
                 await metaModel.create({
                     multiplex: mode,
-                    dataHash: hash,
+                    dataHashCinema: hash,
                 });
             }
         }
@@ -58,7 +61,7 @@ const compareSavedHash = async (mode, data) => {
         global.errorLogger(err);
     }
 
-    return savedHash === hash;
+    return result;
 };
 
 /**
@@ -76,7 +79,6 @@ const updateData = async (mode, data) => {
             if (data.length > 0) {
                 const bulkOps = [];
 
-                // data 순회
                 for (const item of data) {
                     const keys = {};
 

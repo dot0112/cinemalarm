@@ -6,7 +6,10 @@ const metaSchema = new mongoose.Schema(
             type: String,
             require: true,
         },
-        dataHash: {
+        dataHashCinema: {
+            type: String,
+        },
+        dataHashMovie: {
             type: String,
         },
     },
