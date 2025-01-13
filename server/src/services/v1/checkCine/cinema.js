@@ -31,7 +31,14 @@ const cinemaL = async (date) => {
     const formData = new FormData();
     formData.append(
         "paramList",
-        JSON.stringify(global.bodyGenerator("L", { playDate: date }))
+        JSON.stringify(
+            global.bodyGenerator("L", {
+                MethodName: "GetInvisibleMoviePlayInfo",
+                playDt: date,
+                cinemaList: "",
+                movieCd: "",
+            })
+        )
     );
     try {
         const response = await axios.post(
@@ -45,7 +52,7 @@ const cinemaL = async (date) => {
         );
         if (response.status === 200) {
             const data = response.data;
-            const cinemaRaw = data.Cinemas.Cinemas.Items;
+            const cinemaRaw = data.Cinemas.Items;
 
             const disabledCinema = new Set(
                 cinemaRaw.map(
