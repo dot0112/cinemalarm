@@ -1,16 +1,18 @@
 const axios = require("axios");
 const FormData = require("form-data");
 
+const cinemaLModel = require("../../../models/cinema/cinemaL");
+
 /**
  * 반환 형식
  *
  * + CGV
  * -----
  * + LOTTE CINEMA
- * "DivisionCode|DetailDivisionCode|CinemaID"
+ * `DivisionCode|DetailDivisionCode|CinemaID`
  * -----
  * + MEGABOX
- *
+ * `areaCd/brchNo`
  * -----
  */
 
@@ -43,8 +45,25 @@ const cinemaL = async (date) => {
         );
         if (response.status === 200) {
             const data = response.data;
-            // LOTTE CINEMA는 상영하지 않는 극장의 목록을 반환함
-            // DB의 추가가 필요
+            const cinemaRaw = data.Cinemas.Cinemas.Items;
+
+            const disabledCinema = new Set(
+                cinemaRaw.map(
+                    (e) =>
+                        `${e.DivisionCode}|${e.DetailDivisionCode}|${e.CinemaID}`
+                )
+            );
+
+            const allCinemaData = await cinemaLModel.find({});
+            result.push(
+                ...allCinemaData.reduce((acc, e) => {
+                    const key = `${e.DivisionCode}|${e.DetailDivisionCode}|${e.CinemaID}`;
+                    if (!disabledCinema.has(key)) {
+                        acc.push(key);
+                    }
+                    return acc;
+                }, [])
+            );
         }
     } catch (err) {
         global.errorLogger(err);
@@ -61,9 +80,12 @@ const cinemaM = async (date) => {
             const data = response.data;
             const cinemaRaw = [...data.areaBrchList, ...data.spclbBrchList];
             result.push(
-                ...cinemaRaw
-                    .filter((e) => e.brchFormAt === "Y")
-                    .map((e) => `${e.areaCd}/${e.brchNo}`)
+                ...cinemaRaw.reduce((acc, e) => {
+                    if (e.brchFormAt === "Y") {
+                        acc.push(`${e.areaCd}/${e.brchNo}`);
+                    }
+                    return acc;
+                }, [])
             );
         }
     } catch (err) {
