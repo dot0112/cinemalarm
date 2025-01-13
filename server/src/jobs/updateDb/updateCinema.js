@@ -146,8 +146,8 @@ const updateCinemaL = async () => {
             const dataRaw = response.data;
             const cinemaRaws = dataRaw.Cinemas.Cinemas.Items;
             const divisionRaws = [
-                ...dataRaw.CinemaDivision.AreaDivisions.Items,
-                ...dataRaw.CinemaDivision.SpecialTypeDivisions.Items,
+                ...dataRaw.CinemaDivison.AreaDivisions.Items,
+                ...dataRaw.CinemaDivison.SpecialTypeDivisions.Items,
             ];
 
             for (const divisionRaw of divisionRaws) {
