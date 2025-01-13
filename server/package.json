@@ -14,7 +14,8 @@
         "express": "^4.21.2",
         "form-data": "^4.0.1",
         "mongoose": "^8.9.3",
-        "morgan": "^1.10.0"
+        "morgan": "^1.10.0",
+        "node-cron": "^3.0.3"
     },
     "devDependencies": {
         "@types/jest": "^29.5.14",

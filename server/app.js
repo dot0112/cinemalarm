@@ -18,8 +18,12 @@ dotenv.config({ path: "./config//envs/url.env" });
 const mongoose = require("./config/db"); // MongoDB 연결 설정 파일
 const v1 = require("./src/routes/v1/v1"); // v1 API 라우터
 const index = require("./src/routes/index");
+const { initJobManager } = require("./src/jobs/jobManager");
 
 const app = express(); // Express 애플리케이션 생성
+
+// Cron 작업 초기화
+initJobManager();
 
 // SSL 인증서 경로 (key와 cert 파일)
 const sslKeyPath = path.join(__dirname, "config", "keys", "key.pem");
