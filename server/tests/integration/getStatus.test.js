@@ -38,8 +38,6 @@ describe("getStatus 통합 테스트", () => {
 
         const result = await getStatus();
 
-        expect(global.errorLogger).toHaveBeenCalled();
-
         // 결과는 { C: false(구현 전), L: false, M: true }
         expect(result).toEqual({ C: false, L: false, M: true });
     });

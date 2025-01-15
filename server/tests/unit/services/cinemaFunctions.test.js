@@ -59,7 +59,7 @@ describe("cinemaFunctions 테스트", () => {
         const result = await cinemaM("1970-01-01");
         expect(result).toEqual(["test1/test1", "test4/test4"]);
     });
-    test("cinemaFunctions는 잘못된 요청에 대해서 빈 배열을 반환한다.", async () => {
+    test("cinemaFunctions는 잘못된 요청에 대해서 빈 배열을 반환한다", async () => {
         axios.post
             .mockResolvedValue({ status: 500 })
             .mockResolvedValue({ status: 500 })

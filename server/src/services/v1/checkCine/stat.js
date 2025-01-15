@@ -75,7 +75,6 @@ const getStatus = async () => {
                 result = { ...result, ...response.value };
             } else {
                 console.warn(`API ${index} failed:`, response.reason);
-                global.errorLogger(response.reason);
             }
         });
     } catch (err) {

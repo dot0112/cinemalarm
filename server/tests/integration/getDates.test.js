@@ -73,7 +73,7 @@ describe("getDates 통합 테스트", () => {
 
     test("잘못된 호출에 대한 예외 처리를 확인한다", async () => {
         const result = await getDates("Fail");
-        expect(global.errorLogger).not.toHaveBeenCalled();
+        expect(global.errorLogger).toHaveBeenCalled();
         expect(result).toEqual({
             date: [],
         });
