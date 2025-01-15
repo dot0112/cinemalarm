@@ -114,8 +114,8 @@ const getCinemas = async (mode, date) => {
     try {
         const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
         if (!dateRegex.test(date)) {
-            console.warn(
-                "Invalid date format. Expected format: YYYY-MM-DD \t Recived data: date"
+            throw new Error(
+                `Invalid date format. Expected format: YYYY-MM-DD, Received data: ${date}`
             );
         }
 
@@ -123,7 +123,7 @@ const getCinemas = async (mode, date) => {
             const response = await cinemaFunctions[mode](date);
             result.cinema = response;
         } else {
-            console.warn(`Invalid mode: ${mode}`);
+            throw new Error(`Invalid mode: ${mode}`);
         }
     } catch (err) {
         global.errorLogger(err);

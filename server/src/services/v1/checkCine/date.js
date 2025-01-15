@@ -103,7 +103,7 @@ const getDates = async (mode) => {
             const response = await dateFunctions[mode]();
             result.date = response;
         } else {
-            console.warn(`Invalid mode: ${mode}`);
+            throw new Error(`Invalid mode: ${mode}`);
         }
     } catch (err) {
         global.errorLogger(err);
