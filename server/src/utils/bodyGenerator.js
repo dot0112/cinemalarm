@@ -26,6 +26,8 @@ const presetL = {
     playDate: "",
     cinemaID: "",
     representationMovieCode: "",
+    cinemaList: "",
+    movieCd: "",
 };
 
 const presetM = {

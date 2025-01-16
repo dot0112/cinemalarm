@@ -12,7 +12,7 @@ const cinemaLModel = require("../../../models/cinema/cinemaL");
  * `DivisionCode|DetailDivisionCode|CinemaID`
  * -----
  * + MEGABOX
- * `areaCd/brchNo`
+ * `brchNo`
  * -----
  */
 
@@ -35,8 +35,6 @@ const cinemaL = async (date) => {
             global.bodyGenerator("L", {
                 MethodName: "GetInvisibleMoviePlayInfo",
                 playDt: date,
-                cinemaList: "",
-                movieCd: "",
             })
         )
     );
@@ -89,7 +87,7 @@ const cinemaM = async (date) => {
             result.push(
                 ...cinemaRaw.reduce((acc, e) => {
                     if (e.brchFormAt === "Y") {
-                        acc.push(`${e.areaCd}/${e.brchNo}`);
+                        acc.push(`${e.brchNo}`);
                     }
                     return acc;
                 }, [])
