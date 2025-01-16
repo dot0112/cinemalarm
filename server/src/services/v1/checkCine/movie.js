@@ -56,7 +56,14 @@ const movieM = async (date, cinema) => {
             const data = response.data;
             const movieRaw = data.movieList;
             if (Array.isArray(movieRaw)) {
-                result.push(...movieRaw.map((e) => `${e.movieNo}`));
+                result.push(
+                    ...movieRaw.reduce((acc, e) => {
+                        if (e.formAt === "Y") {
+                            acc.push(e.movieNo);
+                        }
+                        return acc;
+                    }, [])
+                );
             }
         }
     } catch (err) {
