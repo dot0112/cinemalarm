@@ -13,6 +13,12 @@ const movieC = async (date, cinema) => {
 
 const movieL = async (date, cinema) => {
     const result = new Set();
+    const cinemaRegex = /^[^\s]+\|[^\s]+\|[^\s]+$/;
+    if (!cinemaRegex.test(cinema)) {
+        throw new Error(
+            `Invalid cinema format. Expected format: {DivisionCode}|{DetailDivisionCode}|{CinemaID}, Received data: ${cinema}`
+        );
+    }
     const formData = new FormData();
     formData.append(
         "paramList",
@@ -46,15 +52,24 @@ const movieL = async (date, cinema) => {
 
 const movieM = async (date, cinema) => {
     const result = [];
+    const cinemaRegex = /^[^\s]+\/[^\s]+$/;
+    if (!cinemaRegex.test(cinema)) {
+        throw new Error(
+            `Invalid cinema format. Expected format: {areaCd}/{brchNo}, Received data: ${cinema}`
+        );
+    }
+
+    const [areaCd, brchNo] = cinema.split("/");
     const data = global.bodyGenerator("M", {
         playDe: date.replace(/-/g, ""),
-        incomeBrchNo1: `${cinema}`,
+        incomeTheabKindCd: `${areaCd}`,
+        incomeBrchNo1: `${brchNo}`,
     });
     try {
         const response = await axios.post(`${process.env.MEGABOX_URL}`, data);
         if (response.status === 200) {
             const data = response.data;
-            const movieRaw = data.movieList;
+            const movieRaw = [...data.movieList, ...data.crtnMovieList];
             if (Array.isArray(movieRaw)) {
                 result.push(
                     ...movieRaw.reduce((acc, e) => {
