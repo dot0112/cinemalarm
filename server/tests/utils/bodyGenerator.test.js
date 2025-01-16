@@ -17,6 +17,8 @@ describe("bodyGenerator 테스트", () => {
             playDate: "",
             cinemaID: "",
             representationMovieCode: "",
+            cinemaList: "",
+            movieCd: "",
         });
     });
 

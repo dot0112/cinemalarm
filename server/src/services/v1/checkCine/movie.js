@@ -1,17 +1,6 @@
 const axios = require("axios");
 const FormData = require("form-data");
 
-/**
- * 반환 형식
- *
- * + CGV
- * -----
- * + LOTTE CINEMA
- * -----
- * + MEGABOX
- * -----
- */
-
 const movieC = async (date, cinema) => {
     const result = [];
     try {
@@ -23,19 +12,53 @@ const movieC = async (date, cinema) => {
 };
 
 const movieL = async (date, cinema) => {
-    const result = [];
+    const result = new Set();
+    const formData = new FormData();
+    formData.append(
+        "paramList",
+        JSON.stringify(
+            global.bodyGenerator("L", {
+                MethodName: "GetPlaySequence",
+                playDate: date,
+                cinemaID: cinema,
+            })
+        )
+    );
     try {
-        const response = [];
+        const response = await axios.post(
+            process.env.LOTTECINEMA_URL,
+            formData,
+            { headers: formData.getHeaders() }
+        );
+        if (response.status === 200) {
+            const movieRaw = response.data?.PlaySeqsHeader?.Items || [];
+            if (Array.isArray(movieRaw)) {
+                movieRaw.forEach((movie) =>
+                    result.add(movie.RepresentationMovieCode)
+                );
+            }
+        }
     } catch (err) {
         global.errorLogger(err);
     }
-    return result;
+    return Array.from(result);
 };
 
 const movieM = async (date, cinema) => {
     const result = [];
+    const data = global.bodyGenerator("M", {
+        playDe: date.replace(/-/g, ""),
+        incomeBrchNo1: `${cinema}`,
+    });
     try {
-        const response = [];
+        const response = await axios.post(`${process.env.MEGABOX_URL}`, data);
+        if (response.status === 200) {
+            const data = response.data;
+            const movieRaw = data.movieList;
+            if (Array.isArray(movieRaw)) {
+                result.push(...movieRaw.map((e) => `${e.movieNo}`));
+            }
+        }
     } catch (err) {
         global.errorLogger(err);
     }
@@ -58,6 +81,10 @@ const getMovies = async (mode, date, cinema) => {
             throw new Error(
                 `Invalid date format. Expected format: YYYY-MM-DD, Received data: ${date}`
             );
+        }
+
+        if (!cinema || typeof cinema !== "string") {
+            throw new Error(`Invalid cinema ID: ${cinema}`);
         }
 
         if (mode && movieFunctions[mode]) {
