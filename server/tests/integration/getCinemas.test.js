@@ -43,18 +43,18 @@ describe("getCinemas 테스트", () => {
             status: 200,
             data: {
                 areaBrchList: [
-                    { brchNo: "test1", brchFormAt: "Y" },
-                    { brchNo: "test2", brchFormAt: "N" },
+                    { areaCd: "test1", brchNo: "test1", brchFormAt: "Y" },
+                    { areaCd: "test2", brchNo: "test2", brchFormAt: "N" },
                 ],
                 spclbBrchList: [
-                    { brchNo: "test3", brchFormAt: "N" },
-                    { brchNo: "test4", brchFormAt: "Y" },
+                    { areaCd: "test3", brchNo: "test3", brchFormAt: "N" },
+                    { areaCd: "test4", brchNo: "test4", brchFormAt: "Y" },
                 ],
             },
         });
         const result = await getCinemas("M", "1970-01-01");
         expect(result).toEqual({
-            cinema: ["test1", "test4"],
+            cinema: ["test1/test1", "test4/test4"],
         });
     });
     test("잘못된 요청에 대해 빈 배열을 반환한다 - Multiplex 기호", async () => {

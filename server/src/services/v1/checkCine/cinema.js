@@ -87,7 +87,7 @@ const cinemaM = async (date) => {
             result.push(
                 ...cinemaRaw.reduce((acc, e) => {
                     if (e.brchFormAt === "Y") {
-                        acc.push(`${e.brchNo}`);
+                        acc.push(`${e.areaCd}/${e.brchNo}`);
                     }
                     return acc;
                 }, [])
