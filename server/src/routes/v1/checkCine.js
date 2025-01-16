@@ -22,8 +22,7 @@ router.post("/cinema", (req, res) => {
 });
 
 router.post("/movie", (req, res) => {
-    console.log(req.body);
-    res.json({ message: "Movie endpoint hit", received: req.body });
+    checkCineController.movie(req, res);
 });
 
 router.post("/time", (req, res) => {
