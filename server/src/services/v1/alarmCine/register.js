@@ -1,6 +1,6 @@
 const { checkValidForm } = require("./checkValidForm");
 const { checkDuplication } = require("./checkDuplication");
-const { checkAvailable } = require("./checkAvailable");
+const { checkAvailableScreen } = require("./checkAvailableScreen");
 
 /**
  * 1. 형식 확인
@@ -19,10 +19,10 @@ const register = async (params) => {
 
         checkValidForm(params);
         await checkDuplication(params);
-        await checkAvailable(params);
+        await checkAvailableScreen(params);
     } catch (err) {
         global.errorLogger(err);
     }
 };
 
-module.exports = { register, checkValidForm, checkDuplication, checkAvailable };
+module.exports = { register };
