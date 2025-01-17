@@ -7,7 +7,7 @@ const FormData = require("form-data");
  * + CGV
  * -----
  * + LOTTE CINEMA
- * `StartTime/EndTime/seqIndex`
+ * `StartTime/EndTime/PlaySequence`
  * -----
  * + MEGABOX
  * `playStartTime/playEndTime/playSchdlNo`
@@ -55,8 +55,8 @@ const timeL = async (date, cinema, movie) => {
             if (Array.isArray(timeRaw)) {
                 result.push(
                     ...timeRaw.map(
-                        (time, index) =>
-                            `${time.StartTime}/${time.EndTime}/${index + 1}`
+                        (time) =>
+                            `${time.StartTime}/${time.EndTime}/${time.PlaySequence}`
                     )
                 );
             }
