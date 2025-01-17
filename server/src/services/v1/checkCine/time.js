@@ -7,7 +7,7 @@ const FormData = require("form-data");
  * + CGV
  * -----
  * + LOTTE CINEMA
- * `StartTime/EndTime/seqIndex`
+ * `StartTime/EndTime/PlaySequence`
  * -----
  * + MEGABOX
  * `playStartTime/playEndTime/playSchdlNo`
@@ -51,12 +51,12 @@ const timeL = async (date, cinema, movie) => {
             { headers: formData.getHeaders() }
         );
         if (response.status === 200) {
-            const timeRaw = response.data?.PlaySeqs?.Items || [];
-            if (Array.isArray(timeRaw)) {
+            const screenRaw = response.data?.PlaySeqs?.Items || [];
+            if (Array.isArray(screenRaw)) {
                 result.push(
-                    ...timeRaw.map(
-                        (time, index) =>
-                            `${time.StartTime}/${time.EndTime}/${index + 1}`
+                    ...screenRaw.map(
+                        (screen) =>
+                            `${screen.StartTime}/${screen.EndTime}/${screen.PlaySequence}`
                     )
                 );
             }
@@ -85,12 +85,12 @@ const timeM = async (date, cinema, movie) => {
     try {
         const response = await axios.post(process.env.MEGABOX_URL, data);
         if (response.status === 200) {
-            const timeRaw = response.data?.movieFormList || [];
-            if (Array.isArray(timeRaw)) {
+            const screenRaw = response.data?.movieFormList || [];
+            if (Array.isArray(screenRaw)) {
                 result.push(
-                    ...timeRaw.map(
-                        (time) =>
-                            `${time.playStartTime}/${time.playEndTime}/${time.playSchdlNo}`
+                    ...screenRaw.map(
+                        (screen) =>
+                            `${screen.playStartTime}/${screen.playEndTime}/${screen.playSchdlNo}`
                     )
                 );
             }
