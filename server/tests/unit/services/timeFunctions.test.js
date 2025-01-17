@@ -72,10 +72,7 @@ describe("timeFunctions 테스트", () => {
         ).rejects.toThrow();
     });
     test("timeFunctions는 잘못된 요청에 대해서 빈 배열을 반환한다", async () => {
-        axios.post
-            .mockResolvedValue({ status: 500 })
-            .mockResolvedValue({ status: 500 })
-            .mockResolvedValue({ status: 500 });
+        axios.post.mockResolvedValue({ status: 500 });
 
         const resultC = await timeC("1970-01-01", "", "test");
         const resultL = await timeL("1970-01-01", "test|test|test", "test");
