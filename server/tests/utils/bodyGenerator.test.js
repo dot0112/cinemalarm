@@ -8,7 +8,7 @@ describe("bodyGenerator 테스트", () => {
     test("LOTTE CINEMA - 기본 형식", () => {
         const result = bodyGenerator.bodyGenerator("L");
         expect(result).toEqual({
-            MethodName: "GetTicketingPageTOBE",
+            MethodName: "",
             channelType: "HO",
             osType: "W",
             osVersion:

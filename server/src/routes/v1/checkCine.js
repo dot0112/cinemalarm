@@ -26,8 +26,7 @@ router.post("/movie", (req, res) => {
 });
 
 router.post("/time", (req, res) => {
-    console.log(req.body);
-    res.json({ message: "Time endpoint hit", received: req.body });
+    checkCineController.time(req, res);
 });
 
 module.exports = router;
