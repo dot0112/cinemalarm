@@ -32,7 +32,7 @@ const presetL = {
 
 const presetM = {
     playDe: "",
-    incomeMovieNo: "",
+    movieNo1: "",
     onLoad: "Y",
     sellChnlCd: "",
     areaCd1: "",

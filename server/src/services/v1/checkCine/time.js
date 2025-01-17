@@ -80,7 +80,7 @@ const timeM = async (date, cinema, movie) => {
         playDe: date.replace(/-/g, ""),
         areaCd: `${areaCd}`,
         brchNo1: `${brchNo}`,
-        incomeMovieNo: `${movie}`,
+        movieNo1: `${movie}`,
     });
     try {
         const response = await axios.post(process.env.MEGABOX_URL, data);
