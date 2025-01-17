@@ -23,7 +23,14 @@ const statC = async () => {
 const statL = async () => {
     const result = { L: false };
     const formData = new FormData();
-    formData.append("paramList", JSON.stringify(global.bodyGenerator("L")));
+    formData.append(
+        "paramList",
+        JSON.stringify(
+            global.bodyGenerator("L", {
+                MethodName: "GetTicketingPageTOBE",
+            })
+        )
+    );
     try {
         const response = await axios.post(
             `${process.env.LOTTECINEMA_URL}`,
