@@ -11,7 +11,7 @@ const statC = async () => {
         const response = false;
         result.C = response;
     } catch (err) {
-        global.errorLogger(err, req);
+        global.errorLogger(err);
     }
     return result;
 };
@@ -43,7 +43,7 @@ const statL = async () => {
         );
         result.L = response.status === 200;
     } catch (err) {
-        global.errorLogger(err, req);
+        global.errorLogger(err);
     }
     return result;
 };
@@ -59,7 +59,7 @@ const statM = async () => {
         const response = await axios.post(`${process.env.MEGABOX_URL}`, data);
         result.M = response.status === 200;
     } catch (err) {
-        global.errorLogger(err, req);
+        global.errorLogger(err);
     }
     return result;
 };

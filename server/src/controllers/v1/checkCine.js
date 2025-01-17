@@ -9,7 +9,7 @@ const stat = async (req, res) => {
         const result = await statService.getStatus();
         res.json(result);
     } catch (err) {
-        global.errorLogger(err, req);
+        global.errorLogger(err);
         res.status(500).json({
             error: "An error occurred on the server.",
             message: err.message || "Unknown error",
@@ -23,7 +23,7 @@ const date = async (req, res) => {
         const result = await dateService.getDates(mode);
         res.json(result);
     } catch (err) {
-        global.errorLogger(err, req);
+        global.errorLogger(err);
         res.status(500).json({
             error: "An error occurred on the server.",
             message: err.message || "Unknown error",
@@ -38,7 +38,7 @@ const cinema = async (req, res) => {
         const result = await cinemaService.getCinemas(mode, date);
         res.json(result);
     } catch (err) {
-        global.errorLogger(err, req);
+        global.errorLogger(err);
         res.status(500).json({
             error: "An error occurred on the server.",
             message: err.message || "Unknown error",
@@ -54,7 +54,7 @@ const movie = async (req, res) => {
         const result = await movieService.getMovies(mode, date, cinema);
         res.json(result);
     } catch (err) {
-        global.errorLogger(err, req);
+        global.errorLogger(err);
         res.status(500).json({
             error: "An error occurred on the server.",
             message: err.message || "Unknown error",
@@ -71,7 +71,7 @@ const time = async (req, res) => {
         const result = await timeService.getTimes(mode, date, cinema, movie);
         res.json(result);
     } catch (err) {
-        global.errorLogger(err, req);
+        global.errorLogger(err);
         res.status(500).json({
             error: "An error occurred on the server.",
             message: err.message || "Unknown error",
