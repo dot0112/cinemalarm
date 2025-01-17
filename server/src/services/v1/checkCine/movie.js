@@ -62,8 +62,8 @@ const movieM = async (date, cinema) => {
     const [areaCd, brchNo] = cinema.split("/");
     const data = global.bodyGenerator("M", {
         playDe: date.replace(/-/g, ""),
-        incomeTheabKindCd: `${areaCd}`,
-        incomeBrchNo1: `${brchNo}`,
+        areaCd: `${areaCd}`,
+        brchNo1: `${brchNo}`,
     });
     try {
         const response = await axios.post(`${process.env.MEGABOX_URL}`, data);

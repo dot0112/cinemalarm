@@ -35,9 +35,8 @@ const presetM = {
     incomeMovieNo: "",
     onLoad: "Y",
     sellChnlCd: "",
-    incomeTheabKindCd: "",
-    incomeBrchNo1: "",
-    incomePlayDe: "",
+    areaCd1: "",
+    brchNo1: "",
 };
 
 global.bodyGenerator = bodyGenerator;
