@@ -1,6 +1,5 @@
 const axios = require("axios");
 const FormData = require("form-data");
-const { bodyGenerator } = require("../../../utils/bodyGenerator");
 
 /**
  * 반환 형식
@@ -79,8 +78,8 @@ const timeM = async (date, cinema, movie) => {
     const [areaCd, brchNo] = cinema.split("/");
     const data = global.bodyGenerator("M", {
         playDe: date.replace(/-/g, ""),
-        incomeTheabKindCd: `${areaCd}`,
-        incomeBrchNo1: `${brchNo}`,
+        areaCd: `${areaCd}`,
+        brchNo1: `${brchNo}`,
         incomeMovieNo: `${movie}`,
     });
     try {

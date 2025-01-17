@@ -29,9 +29,8 @@ describe("bodyGenerator 테스트", () => {
             incomeMovieNo: "",
             onLoad: "Y",
             sellChnlCd: "",
-            incomeTheabKindCd: "",
-            incomeBrchNo1: "",
-            incomePlayDe: "",
+            areaCd1: "",
+            brchNo1: "",
         });
     });
 });
