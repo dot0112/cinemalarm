@@ -18,8 +18,8 @@ const register = async (params) => {
         }
 
         checkValidForm(params);
-        checkDuplication(params);
-        checkAvailable(params);
+        await checkDuplication(params);
+        await checkAvailable(params);
     } catch (err) {
         global.errorLogger(err);
     }
