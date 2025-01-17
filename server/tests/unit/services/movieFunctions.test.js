@@ -53,7 +53,7 @@ describe("movieFunctions 테스트", () => {
         const result = await movieM("1970-01-01", "test/test");
         expect(result).toEqual(["test1", "test3"]);
     });
-    test("movieM은 잘못된 파라미터 형식에 오률르 발생시킨다", async () => {
+    test("movieM은 잘못된 파라미터 형식에 오류를 발생시킨다", async () => {
         await expect(movieM("1970-01-01", 1234)).rejects.toThrow();
         await expect(movieM("1970-01-01", "test")).rejects.toThrow();
     });
