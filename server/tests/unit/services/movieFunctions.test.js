@@ -58,10 +58,7 @@ describe("movieFunctions 테스트", () => {
         await expect(movieM("1970-01-01", "test")).rejects.toThrow();
     });
     test("movieFunctions는 잘못된 요청에 대해서 빈 배열을 반환한다", async () => {
-        axios.post
-            .mockResolvedValue({ status: 500 })
-            .mockResolvedValue({ status: 500 })
-            .mockResolvedValue({ status: 500 });
+        axios.post.mockResolvedValue({ status: 500 });
 
         const resultC = await movieC("1970-01-01", "");
         const resultL = await movieL("1970-01-01", "test|test|test");
