@@ -17,7 +17,7 @@ const bodyGenerator = (mode, bodyData = {}) => {
 };
 
 const presetL = {
-    MethodName: "GetTicketingPageTOBE",
+    MethodName: "",
     channelType: "HO",
     osType: "W",
     osVersion:

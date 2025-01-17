@@ -94,7 +94,7 @@ const movieFunctions = {
 };
 
 const getMovies = async (mode, date, cinema) => {
-    let result = {
+    const result = {
         movie: [],
     };
     try {
