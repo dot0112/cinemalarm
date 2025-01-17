@@ -26,7 +26,7 @@ describe("bodyGenerator 테스트", () => {
         const result = bodyGenerator.bodyGenerator("M");
         expect(result).toEqual({
             playDe: "19700101",
-            incomeMovieNo: "",
+            movieNo1: "",
             onLoad: "Y",
             sellChnlCd: "",
             areaCd1: "",
