@@ -1,12 +1,12 @@
 const path = require("path");
 
-function errorLogger(err, req) {
+function errorLogger(err) {
     const stackTrace = {};
     Error.captureStackTrace(stackTrace);
-    const callerName = stackTrace.stack.split("\n")[2].trim().split(" ")[1];
-    const fileName =
-        req && req.route ? path.basename(req.route.path) : "Unknown";
-    console.error(`[ERROR] ${fileName}: ${callerName} - ${err}`);
+    const callerLine = stackTrace.stack.split("\n")[2]?.trim();
+    const callerName = callerLine?.split(" ")[1] || "Unknown";
+    const fileName = callerLine?.match(/\((.*?):\d+:\d+\)/)?.[1] || "Unknown";
+    console.error(`[ERROR] ${fileName}: ${callerName} - ${err.message || err}`);
 }
 
 global.errorLogger = errorLogger;
