@@ -43,12 +43,6 @@ const checkScreenL = async ({ date, cinema, movie, time }) => {
 };
 
 const checkScreenM = async ({ date, cinema, movie, time }) => {
-    const cinemaRegex = /^[^\s]+\/[^\s]+$/;
-    if (!cinemaRegex.test(cinema)) {
-        throw new Error(
-            `Invalid cinema format. Expected format: {areaCd}/{brchNo}, Received data: ${cinema}`
-        );
-    }
     const [areaCd, brchNo] = cinema.split("/");
     const data = global.bodyGenerator("M", {
         playDe: date.replace(/-/g, ""),
@@ -58,8 +52,9 @@ const checkScreenM = async ({ date, cinema, movie, time }) => {
     });
     try {
         const result = await axios.post(process.env.MEGABOX_URL, data);
+
         if (result.status === 200) {
-            const screenRaw = response.data?.movieFormList || [];
+            const screenRaw = result.data?.movieFormList || [];
             const playSchdlNo = time.split("/")[2];
             if (Array.isArray(screenRaw) && playSchdlNo) {
                 for (const screen of screenRaw) {
@@ -69,7 +64,6 @@ const checkScreenM = async ({ date, cinema, movie, time }) => {
                 }
             }
         }
-        return true;
     } catch (err) {
         global.errorLogger(err);
     }

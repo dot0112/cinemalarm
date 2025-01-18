@@ -26,10 +26,12 @@ describe("timeFunctions 테스트", () => {
                         {
                             StartTime: "00:00",
                             EndTime: "01:00",
+                            PlaySequence: "1",
                         },
                         {
                             StartTime: "01:00",
                             EndTime: "02:00",
+                            PlaySequence: "2",
                         },
                     ],
                 },

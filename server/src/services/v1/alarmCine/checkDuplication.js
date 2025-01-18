@@ -5,14 +5,16 @@ const checkDuplication = async (object) => {
     try {
         const hash = hashingData.hashWithMD5(object);
 
-        const searchResult = await cinemalarmModel.find({ hash: hash });
-        if (searchResult.length > 0) {
+        const searchResult = await cinemalarmModel.findOne({ hash: hash });
+
+        if (!searchResult || searchResult.length > 0) {
             return false;
         }
+        return true;
     } catch (err) {
         global.errorLogger(err);
     }
-    return true;
+    return false;
 };
 
 module.exports = { checkDuplication };
