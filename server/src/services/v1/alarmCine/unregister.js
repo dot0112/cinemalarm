@@ -27,7 +27,7 @@ const unregister = async (params) => {
 
         if (isDuplicate) {
             result.status = 409; // Conflict
-            result.message = "Data dosent't exists";
+            result.message = "Data doesn't exists";
             return result;
         }
 
