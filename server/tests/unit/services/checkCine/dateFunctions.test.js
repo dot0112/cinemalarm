@@ -2,7 +2,7 @@ const {
     dateC,
     dateL,
     dateM,
-} = require("../../../src/services/v1/checkCine/date");
+} = require("../../../../src/services/v1/checkCine/date");
 const axios = require("axios");
 const FormData = require("form-data");
 jest.mock("axios");

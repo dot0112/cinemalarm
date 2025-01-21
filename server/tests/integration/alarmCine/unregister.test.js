@@ -1,8 +1,8 @@
-require("../../src/utils/errorLogger");
-const { unregister } = require("../../src/services/v1/alarmCine/unregister");
-const cinemalarmModel = require("../../src/models/cinemalarm");
+require("../../../src/utils/errorLogger");
+const { unregister } = require("../../../src/services/v1/alarmCine/unregister");
+const cinemalarmModel = require("../../../src/models/cinemalarm");
 
-jest.mock("../../src/models/cinemalarm", () => {
+jest.mock("../../../src/models/cinemalarm", () => {
     const mockModel = jest.fn();
     mockModel.findOne = jest.fn();
     mockModel.deleteOne = jest.fn();

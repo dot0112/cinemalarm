@@ -1,4 +1,4 @@
-const { getStatus } = require("../../src/services/v1/checkCine/stat");
+const { getStatus } = require("../../../src/services/v1/checkCine/stat");
 const axios = require("axios");
 jest.mock("axios");
 

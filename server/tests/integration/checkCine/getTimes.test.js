@@ -1,5 +1,5 @@
-require("../../src/utils/errorLogger");
-const { getTimes } = require("../../src/services/v1/checkCine/time");
+require("../../../src/utils/errorLogger");
+const { getTimes } = require("../../../src/services/v1/checkCine/time");
 
 const axios = require("axios");
 const FomrData = require("form-data");
