@@ -11,7 +11,7 @@ describe("getDates 통합 테스트", () => {
     });
 
     test("CGV의 상영 날짜 리스트를 확인한다", async () => {
-        const result = await getDates("C");
+        const result = await getDates({ mode: "C" });
         expect(result).toEqual({ date: [] });
     });
 
@@ -42,7 +42,7 @@ describe("getDates 통합 테스트", () => {
 
         global.bodyGenerator.mockResolvedValueOnce({});
 
-        const result = await getDates("L");
+        const result = await getDates({ mode: "L" });
         expect(result).toEqual({
             date: ["2025-01-10", "2025-01-12"],
         });
@@ -65,14 +65,14 @@ describe("getDates 통합 테스트", () => {
 
         global.bodyGenerator.mockResolvedValueOnce({});
 
-        const result = await getDates("M");
+        const result = await getDates({ mode: "M" });
         expect(result).toEqual({
             date: ["2025-01-10", "2025-01-11"],
         });
     });
 
     test("잘못된 호출에 대한 예외 처리를 확인한다", async () => {
-        const result = await getDates("Fail");
+        const result = await getDates({ mode: "Fail" });
         expect(global.errorLogger).toHaveBeenCalled();
         expect(result).toEqual({
             date: [],

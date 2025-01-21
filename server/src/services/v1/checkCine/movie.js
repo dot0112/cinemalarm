@@ -1,12 +1,15 @@
 const axios = require("axios");
 const FormData = require("form-data");
 
+const CreateCheckCineResponseDto = require("../../../dtos/checkCineResponse.dto");
+
 const movieC = async (date, cinema) => {
     const result = [];
     try {
         const response = [];
     } catch (err) {
         global.errorLogger(err);
+        throw err;
     }
     return result;
 };
@@ -43,9 +46,12 @@ const movieL = async (date, cinema) => {
                     result.add(movie.RepresentationMovieCode)
                 );
             }
+        } else {
+            throw new Error("Failed to retrieve movie data");
         }
     } catch (err) {
         global.errorLogger(err);
+        throw err;
     }
     return Array.from(result);
 };
@@ -80,9 +86,12 @@ const movieM = async (date, cinema) => {
                     }, [])
                 );
             }
+        } else {
+            throw new Error("Failed to retrieve movie data");
         }
     } catch (err) {
         global.errorLogger(err);
+        throw err;
     }
     return result;
 };
@@ -93,7 +102,7 @@ const movieFunctions = {
     M: movieM,
 };
 
-const getMovies = async (mode, date, cinema) => {
+const getMovies = async ({ mode, date, cinema }) => {
     const result = {
         movie: [],
     };
@@ -117,8 +126,17 @@ const getMovies = async (mode, date, cinema) => {
         }
     } catch (err) {
         global.errorLogger(err);
+        throw new CreateCheckCineResponseDto({
+            status: 400,
+            message: err.message,
+        });
     }
-    return result;
+    return CreateCheckCineResponseDto.fromRequest({
+        mode: mode,
+        date: date,
+        cinema: cinema,
+        result: result,
+    });
 };
 
 module.exports = { getMovies, movieC, movieL, movieM };

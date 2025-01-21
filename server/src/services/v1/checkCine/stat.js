@@ -1,6 +1,8 @@
 const axios = require("axios");
 const FormData = require("form-data");
 
+const CreateCheckCineResponseDto = require("../../../dtos/checkCineResponse.dto");
+
 /**
  * CGV API 동작 확인
  * @returns {Object} - { C: boolean } API 동작 여부 (CGV)
@@ -12,6 +14,7 @@ const statC = async () => {
         result.C = response;
     } catch (err) {
         global.errorLogger(err);
+        throw err;
     }
     return result;
 };
@@ -44,6 +47,7 @@ const statL = async () => {
         result.L = response.status === 200;
     } catch (err) {
         global.errorLogger(err);
+        throw err;
     }
     return result;
 };
@@ -60,6 +64,7 @@ const statM = async () => {
         result.M = response.status === 200;
     } catch (err) {
         global.errorLogger(err);
+        throw err;
     }
     return result;
 };
@@ -86,8 +91,12 @@ const getStatus = async () => {
         });
     } catch (err) {
         global.errorLogger(err);
+        throw new CreateCheckCineResponseDto({
+            status: 400,
+            message: err.message,
+        });
     }
-    return result;
+    return CreateCheckCineResponseDto.fromRequest({ result: result });
 };
 
 module.exports = { getStatus, statC, statL, statM };

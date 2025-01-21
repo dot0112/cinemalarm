@@ -10,7 +10,11 @@ global.bodyGenerator = jest.fn();
 
 describe("getMovies 테스트", () => {
     test("CGV의 선택 가능 영화를 확인한다", async () => {
-        const result = await getMovies("C", "1970-01-01", "test");
+        const result = await getMovies({
+            mode: "C",
+            date: "1970-01-01",
+            cinema: "test",
+        });
         expect(result).toEqual({ movie: [] });
     });
 
@@ -26,7 +30,11 @@ describe("getMovies 테스트", () => {
                 },
             },
         });
-        const result = await getMovies("L", "1970-01-01", "test|test|test");
+        const result = await getMovies({
+            mode: "L",
+            date: "1970-01-01",
+            cinema: "test|test|test",
+        });
         expect(result).toEqual({ movie: ["test1", "test2"] });
     });
 
@@ -44,19 +52,39 @@ describe("getMovies 테스트", () => {
                 ],
             },
         });
-        const result = await getMovies("M", "1970-01-01", "test/test");
+        const result = await getMovies({
+            mode: "M",
+            date: "1970-01-01",
+            cinema: "test/test",
+        });
         expect(result).toEqual({ movie: ["test1", "test3"] });
     });
 
     test("잘못된 요청에 대해 빈 배열을 반환한다 - Multiplex 기호", async () => {
-        const result = await getMovies("Invalid move", "1970-01-01", "test");
+        const result = await getMovies({
+            mode: "Invalid mode",
+            date: "1970-01-01",
+            cinema: "test",
+        });
         expect(result).toEqual({ movie: [] });
     });
 
     test("잘못된 요청에 대해 빈 배열을 반환한다 - 날짜 형식", async () => {
-        const resultC = await getMovies("C", "19700101", "test");
-        const resultL = await getMovies("L", "19700101", "test|test|test");
-        const resultM = await getMovies("M", "19700101", "test/test");
+        const resultC = await getMovies({
+            mode: "C",
+            date: "19700101",
+            cinema: "test",
+        });
+        const resultL = await getMovies({
+            mode: "L",
+            date: "19700101",
+            cinema: "test|test|test",
+        });
+        const resultM = await getMovies({
+            mode: "M",
+            date: "19700101",
+            cinema: "test/test",
+        });
         expect(resultC).toEqual({ movie: [] });
         expect(resultL).toEqual({ movie: [] });
         expect(resultM).toEqual({ movie: [] });
@@ -64,8 +92,16 @@ describe("getMovies 테스트", () => {
 
     test("잘못된 요청에 대해 빈 배열을 반환한다 - 지점 형식", async () => {
         // const resultC = await getMovies("C", "1970-01-01", ""); - 미구현
-        const resultL = await getMovies("L", "1970-01-01", "");
-        const resultM = await getMovies("M", "1970-01-01", "");
+        const resultL = await getMovies({
+            mode: "L",
+            date: "1970-01-01",
+            cinema: "",
+        });
+        const resultM = await getMovies({
+            mode: "M",
+            date: "1970-01-01",
+            cinema: "",
+        });
         // expect(resultC).toEqual({ movie: [] });
         expect(resultL).toEqual({ movie: [] });
         expect(resultM).toEqual({ movie: [] });
@@ -73,9 +109,21 @@ describe("getMovies 테스트", () => {
 
     test("잘못된 반환에 대해 빈 배열을 반환한다", async () => {
         axios.post.mockResolvedValue({ status: 500 });
-        const resultC = await getMovies("C", "1970-01-01", "");
-        const resultL = await getMovies("L", "1970-01-01", "test|test|test");
-        const resultM = await getMovies("M", "1970-01-01", "test/test");
+        const resultC = await getMovies({
+            mode: "C",
+            date: "1970-01-01",
+            cinema: "",
+        });
+        const resultL = await getMovies({
+            mode: "L",
+            date: "1970-01-01",
+            cinema: "test|test|test",
+        });
+        const resultM = await getMovies({
+            mode: "M",
+            date: "1970-01-01",
+            cinema: "test/test",
+        });
         expect(resultC).toEqual({ movie: [] });
         expect(resultL).toEqual({ movie: [] });
         expect(resultM).toEqual({ movie: [] });
