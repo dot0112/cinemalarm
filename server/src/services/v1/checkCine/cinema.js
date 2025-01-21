@@ -2,6 +2,7 @@ const axios = require("axios");
 const FormData = require("form-data");
 
 const cinemaLModel = require("../../../models/cinema/cinemaL");
+const CreateCheckCineResponseDto = require("../../../dtos/checkCineResponse.dto");
 
 /**
  * 반환 형식
@@ -22,6 +23,7 @@ const cinemaC = async (date) => {
         const response = [];
     } catch (err) {
         global.errorLogger(err);
+        throw err;
     }
     return result;
 };
@@ -69,9 +71,12 @@ const cinemaL = async (date) => {
                     return acc;
                 }, [])
             );
+        } else {
+            throw new Error("Failed to retrieve cinema data");
         }
     } catch (err) {
         global.errorLogger(err);
+        throw err;
     }
     return result;
 };
@@ -92,9 +97,12 @@ const cinemaM = async (date) => {
                     return acc;
                 }, [])
             );
+        } else {
+            throw new Error("Failed to retrieve cinema data");
         }
     } catch (err) {
         global.errorLogger(err);
+        throw err;
     }
     return result;
 };
@@ -125,8 +133,16 @@ const getCinemas = async ({ mode, date }) => {
         }
     } catch (err) {
         global.errorLogger(err);
+        throw new CreateCheckCineResponseDto({
+            status: 400,
+            message: err.message,
+        });
     }
-    return result;
+    return CreateCheckCineResponseDto.fromRequest({
+        mode: mode,
+        date: date,
+        result: result,
+    });
 };
 
 module.exports = { getCinemas, cinemaC, cinemaL, cinemaM };

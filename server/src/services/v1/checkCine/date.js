@@ -1,6 +1,8 @@
 const axios = require("axios");
 const FormData = require("form-data");
 
+const CreateCheckCineResponseDto = require("../../../dtos/checkCineResponse.dto");
+
 /**
  * 반환 날짜 형식 (: LOTTE CINEMA 형식)
  * {
@@ -21,6 +23,7 @@ const dateC = async () => {
         const response = [];
     } catch (err) {
         global.errorLogger(err);
+        throw err;
     }
     return result;
 };
@@ -61,6 +64,7 @@ const dateL = async () => {
         }
     } catch (err) {
         global.errorLogger(err);
+        throw err;
     }
     return result;
 };
@@ -85,6 +89,7 @@ const dateM = async () => {
         }
     } catch (err) {
         global.errorLogger(err);
+        throw err;
     }
     return result;
 };
@@ -114,8 +119,15 @@ const getDates = async ({ mode }) => {
         }
     } catch (err) {
         global.errorLogger(err);
+        throw new CreateCheckCineResponseDto({
+            status: 400,
+            message: err.message,
+        });
     }
-    return result;
+    return CreateCheckCineResponseDto.fromRequest({
+        mode: mode,
+        result: result,
+    });
 };
 
 module.exports = { getDates, dateC, dateL, dateM };

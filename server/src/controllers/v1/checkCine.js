@@ -3,33 +3,37 @@ const dateService = require("../../services/v1/checkCine/date");
 const cinemaService = require("../../services/v1/checkCine/cinema");
 const movieService = require("../../services/v1/checkCine/movie");
 const timeService = require("../../services/v1/checkCine/time");
+
 const CreateCheckCineRequestDto = require("../../dtos/checkCineRequest.dto");
+const CreateCheckCineResponseDto = require("../../dtos/checkCineResponse.dto");
 
 const stat = async (req, res) => {
     try {
         const result = await statService.getStatus();
-        res.json(result);
-    } catch (err) {
-        global.errorLogger(err);
-        res.status(500).json({
-            error: "An error occurred on the server.",
-            message: err.message || "Unknown error",
+        const responseDto = new CreateCheckCineResponseDto({
+            status: 200,
+            message: "success",
+            data: result,
         });
+        res.status(responseDto.status).json(responseDto);
+    } catch (err) {
+        res.status(err.status || 500).json(err);
     }
 };
 
 const date = async (req, res) => {
     try {
-        const dto = new CreateCheckCineRequestDto(req.body);
-        dto.validate("date");
-        const result = await dateService.getDates({ mode: dto.mode });
-        res.json(result);
-    } catch (err) {
-        global.errorLogger(err);
-        res.status(500).json({
-            error: "An error occurred on the server.",
-            message: err.message || "Unknown error",
+        const requestDto = new CreateCheckCineRequestDto(req.body);
+        requestDto.validate("date");
+        const result = await dateService.getDates({ mode: requestDto.mode });
+        const responseDto = new CreateCheckCineResponseDto({
+            status: 200,
+            message: "success",
+            data: result,
         });
+        res.status(responseDto.status).json(responseDto);
+    } catch (err) {
+        res.status(err.status || 500).json(err);
     }
 };
 
@@ -41,13 +45,14 @@ const cinema = async (req, res) => {
             mode: dto.mode,
             date: dto.date,
         });
-        res.json(result);
-    } catch (err) {
-        global.errorLogger(err);
-        res.status(500).json({
-            error: "An error occurred on the server.",
-            message: err.message || "Unknown error",
+        const responseDto = new CreateCheckCineResponseDto({
+            status: 200,
+            message: "success",
+            data: result,
         });
+        res.status(responseDto.status).json(responseDto);
+    } catch (err) {
+        res.status(err.status || 500).json(err);
     }
 };
 
@@ -60,13 +65,14 @@ const movie = async (req, res) => {
             date: dto.date,
             cinema: dto.cinema,
         });
-        res.json(result);
-    } catch (err) {
-        global.errorLogger(err);
-        res.status(500).json({
-            error: "An error occurred on the server.",
-            message: err.message || "Unknown error",
+        const responseDto = new CreateCheckCineResponseDto({
+            status: 200,
+            message: "success",
+            data: result,
         });
+        res.status(responseDto.status).json(responseDto);
+    } catch (err) {
+        res.status(err.status || 500).json(err);
     }
 };
 
@@ -80,13 +86,14 @@ const time = async (req, res) => {
             cinema: dto.cinema,
             movie: dto.movie,
         });
-        res.json(result);
-    } catch (err) {
-        global.errorLogger(err);
-        res.status(500).json({
-            error: "An error occurred on the server.",
-            message: err.message || "Unknown error",
+        const responseDto = new CreateCheckCineResponseDto({
+            status: 200,
+            message: "success",
+            data: result,
         });
+        res.status(responseDto.status).json(responseDto);
+    } catch (err) {
+        res.status(err.status || 500).json(err);
     }
 };
 

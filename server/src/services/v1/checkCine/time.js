@@ -1,6 +1,8 @@
 const axios = require("axios");
 const FormData = require("form-data");
 
+const CreateCheckCineResponseDto = require("../../../dtos/checkCineResponse.dto");
+
 /**
  * 반환 형식
  *
@@ -20,6 +22,7 @@ const timeC = async (date, cinema, movie) => {
         const response = [];
     } catch (err) {
         global.errorLogger(err);
+        throw err;
     }
     return result;
 };
@@ -60,9 +63,12 @@ const timeL = async (date, cinema, movie) => {
                     )
                 );
             }
+        } else {
+            throw new Error("Failed to retrieve time data");
         }
     } catch (err) {
         global.errorLogger(err);
+        throw err;
     }
     return result;
 };
@@ -94,9 +100,12 @@ const timeM = async (date, cinema, movie) => {
                     )
                 );
             }
+        } else {
+            throw new Error("Failed to retrieve time data");
         }
     } catch (err) {
         global.errorLogger(err);
+        throw err;
     }
     return result;
 };
@@ -135,8 +144,18 @@ const getTimes = async ({ mode, date, cinema, movie }) => {
         }
     } catch (err) {
         global.errorLogger(err);
+        throw new CreateCheckCineResponseDto({
+            status: 400,
+            message: err.message,
+        });
     }
-    return result;
+    return CreateCheckCineResponseDto.fromRequest({
+        mode: mode,
+        date: date,
+        cinema: cinema,
+        movie: movie,
+        result: result,
+    });
 };
 
 module.exports = { getTimes, timeC, timeL, timeM };
