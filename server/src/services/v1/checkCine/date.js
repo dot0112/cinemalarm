@@ -101,7 +101,7 @@ const dateFunctions = {
  * @param {String} mode Multiplex 특정 기호
  * @returns {Array} - 선택 가능 날짜 리스트
  */
-const getDates = async (mode) => {
+const getDates = async ({ mode }) => {
     let result = {
         date: [],
     };

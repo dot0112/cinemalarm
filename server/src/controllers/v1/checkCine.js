@@ -3,6 +3,7 @@ const dateService = require("../../services/v1/checkCine/date");
 const cinemaService = require("../../services/v1/checkCine/cinema");
 const movieService = require("../../services/v1/checkCine/movie");
 const timeService = require("../../services/v1/checkCine/time");
+const CreateCheckCineRequestDto = require("../../dtos/checkCineRequest.dto");
 
 const stat = async (req, res) => {
     try {
@@ -19,8 +20,9 @@ const stat = async (req, res) => {
 
 const date = async (req, res) => {
     try {
-        const mode = req.body.multiplex;
-        const result = await dateService.getDates(mode);
+        const dto = new CreateCheckCineRequestDto(req.body);
+        dto.validate("date");
+        const result = await dateService.getDates({ mode: dto.mode });
         res.json(result);
     } catch (err) {
         global.errorLogger(err);
@@ -33,9 +35,12 @@ const date = async (req, res) => {
 
 const cinema = async (req, res) => {
     try {
-        const mode = req.body.multiplex;
-        const date = req.body.date;
-        const result = await cinemaService.getCinemas(mode, date);
+        const dto = new CreateCheckCineRequestDto(req.body);
+        dto.validate("cinema");
+        const result = await cinemaService.getCinemas({
+            mode: dto.mode,
+            date: dto.date,
+        });
         res.json(result);
     } catch (err) {
         global.errorLogger(err);
@@ -48,10 +53,13 @@ const cinema = async (req, res) => {
 
 const movie = async (req, res) => {
     try {
-        const mode = req.body.multiplex;
-        const date = req.body.date;
-        const cinema = req.body.cinema;
-        const result = await movieService.getMovies(mode, date, cinema);
+        const dto = new CreateCheckCineRequestDto(req.body);
+        dto.validate("movie");
+        const result = await movieService.getMovies({
+            mode: dto.mode,
+            date: dto.date,
+            cinema: dto.cinema,
+        });
         res.json(result);
     } catch (err) {
         global.errorLogger(err);
@@ -64,11 +72,14 @@ const movie = async (req, res) => {
 
 const time = async (req, res) => {
     try {
-        const mode = req.body.multiplex;
-        const date = req.body.date;
-        const cinema = req.body.cinema;
-        const movie = req.body.movie;
-        const result = await timeService.getTimes(mode, date, cinema, movie);
+        const dto = new CreateCheckCineRequestDto(req.body);
+        dto.validate("time");
+        const result = await timeService.getTimes({
+            mode: dto.mode,
+            date: dto.date,
+            cinema: dto.cinema,
+            movie: dto.movie,
+        });
         res.json(result);
     } catch (err) {
         global.errorLogger(err);

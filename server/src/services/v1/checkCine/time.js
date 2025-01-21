@@ -107,7 +107,7 @@ const timeFunctions = {
     M: timeM,
 };
 
-const getTimes = async (mode, date, cinema, movie) => {
+const getTimes = async ({ mode, date, cinema, movie }) => {
     const result = {
         time: [],
     };

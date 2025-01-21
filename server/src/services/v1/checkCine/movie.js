@@ -93,7 +93,7 @@ const movieFunctions = {
     M: movieM,
 };
 
-const getMovies = async (mode, date, cinema) => {
+const getMovies = async ({ mode, date, cinema }) => {
     const result = {
         movie: [],
     };

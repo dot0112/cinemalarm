@@ -12,7 +12,7 @@ global.bodyGenerator = jest.fn();
 
 describe("getCinemas 테스트", () => {
     test("CGV의 선택 가능 지점을 확인한다", async () => {
-        const result = await getCinemas("C", "1970-01-01");
+        const result = await getCinemas({ mode: "C", date: "1970-01-01" });
         expect(result).toEqual({ cinema: [] });
     });
     test("LOTTE CINEMA의 선택 가능 지점을 확인한다", async () => {
@@ -35,7 +35,7 @@ describe("getCinemas 테스트", () => {
             { DivisionCode: 2, DetailDivisionCode: "test2", CinemaID: 2 },
             { DivisionCode: 3, DetailDivisionCode: "test3", CinemaID: 3 },
         ]);
-        const result = await getCinemas("L", "1970-01-01");
+        const result = await getCinemas({ mode: "L", date: "1970-01-01" });
         expect(result).toEqual({ cinema: ["1|test1|1", "3|test3|3"] });
     });
     test("MEGABOX의 선택 가능 지점을 확인한다", async () => {
@@ -52,21 +52,21 @@ describe("getCinemas 테스트", () => {
                 ],
             },
         });
-        const result = await getCinemas("M", "1970-01-01");
+        const result = await getCinemas({ mode: "M", date: "1970-01-01" });
         expect(result).toEqual({
             cinema: ["test1/test1", "test4/test4"],
         });
     });
     test("잘못된 요청에 대해 빈 배열을 반환한다 - Multiplex 기호", async () => {
-        const result = await getCinemas("Test", "1970-01-01");
+        const result = await getCinemas({ mode: "Test", date: "1970-01-01" });
         expect(result).toEqual({
             cinema: [],
         });
     });
     test("잘못된 요청에 대해 빈 배열을 반환한다 - 날짜 형식", async () => {
-        const resultC = await getCinemas("C", "19700101");
-        const resultL = await getCinemas("L", "19700101");
-        const resultM = await getCinemas("M", "19700101");
+        const resultC = await getCinemas({ mode: "C", date: "19700101" });
+        const resultL = await getCinemas({ mode: "L", date: "19700101" });
+        const resultM = await getCinemas({ mode: "M", date: "19700101" });
         expect(resultC).toEqual({
             cinema: [],
         });
@@ -79,9 +79,9 @@ describe("getCinemas 테스트", () => {
     });
     test("잘못된 반환에 대해 빈 배열을 반환한다", async () => {
         axios.post.mockResolvedValue({ status: 500 });
-        const resultC = await getCinemas("C", "1970-01-01");
-        const resultL = await getCinemas("L", "1970-01-01");
-        const resultM = await getCinemas("M", "1970-01-01");
+        const resultC = await getCinemas({ mode: "C", date: "1970-01-01" });
+        const resultL = await getCinemas({ mode: "L", date: "1970-01-01" });
+        const resultM = await getCinemas({ mode: "M", date: "1970-01-01" });
         expect(resultC).toEqual({
             cinema: [],
         });

@@ -105,7 +105,7 @@ const cinemaFunctions = {
     M: cinemaM,
 };
 
-const getCinemas = async (mode, date) => {
+const getCinemas = async ({ mode, date }) => {
     let result = {
         cinema: [],
     };

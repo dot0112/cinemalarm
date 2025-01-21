@@ -10,7 +10,12 @@ global.bodyGenerator = jest.fn();
 
 describe("getTimes 테스트", () => {
     test("CGV의 선택 가능 시간을 확인한다", async () => {
-        const result = await getTimes("C", "1970-01-01", "test", "test");
+        const result = await getTimes({
+            mode: "C",
+            date: "1970-01-01",
+            cinema: "test",
+            movie: "test",
+        });
         expect(result).toEqual({ time: [] });
     });
     test("LOTTE CINEMA의 선택 가능 시간을 확인한다", async () => {
@@ -33,12 +38,12 @@ describe("getTimes 테스트", () => {
                 },
             },
         });
-        const result = await getTimes(
-            "L",
-            "1970-01-01",
-            "test|test|test",
-            "test"
-        );
+        const result = await getTimes({
+            mode: "L",
+            date: "1970-01-01",
+            cinema: "test|test|test",
+            movie: "test",
+        });
         expect(result).toEqual({ time: ["00:00/01:00/1", "01:00/02:00/2"] });
     });
     test("MEGABOX의 선택 가능 시간을 확인한다", async () => {
@@ -59,62 +64,107 @@ describe("getTimes 테스트", () => {
                 ],
             },
         });
-        const result = await getTimes("M", "1970-01-01", "test/test", "test");
+        const result = await getTimes({
+            mode: "M",
+            date: "1970-01-01",
+            cinema: "test/test",
+            movie: "test",
+        });
         expect(result).toEqual({ time: ["00:00/01:00/1", "01:00/02:00/2"] });
     });
     test("잘못된 요청에 대해 빈 배열을 반환한다 - Multiplex 기호", async () => {
-        const result = await getTimes(
-            "Invalid move",
-            "1970-01-01",
-            "test",
-            "test"
-        );
+        const result = await getTimes({
+            mode: "Invalid move",
+            date: "1970-01-01",
+            cinema: "test",
+            movie: "test",
+        });
         expect(result).toEqual({ time: [] });
     });
     test("잘못된 요청에 대해 빈 배열을 반환한다 - 날짜 형식", async () => {
-        const resultC = await getTimes("C", "19700101", "test", "test");
-        const resultL = await getTimes(
-            "L",
-            "19700101",
-            "test|test|test",
-            "test"
-        );
-        const resultM = await getTimes("M", "19700101", "test/test", "test");
+        const resultC = await getTimes({
+            mode: "C",
+            date: "19700101",
+            cinema: "test",
+            movie: "test",
+        });
+        const resultL = await getTimes({
+            mode: "L",
+            date: "19700101",
+            cinema: "test|test|test",
+            movie: "test",
+        });
+        const resultM = await getTimes({
+            mode: "M",
+            date: "19700101",
+            cinema: "test/test",
+            movie: "test",
+        });
         expect(resultC).toEqual({ time: [] });
         expect(resultL).toEqual({ time: [] });
         expect(resultM).toEqual({ time: [] });
     });
     test("잘못된 요청에 대해 빈 배열을 반환한다 - 지점 형식", async () => {
         // const resultC = await getTimes("C", "1970-01-01", "test", "test"); - 미구현
-        const resultL = await getTimes("L", "1970-01-01", "test|test", "test");
-        const resultM = await getTimes("M", "1970-01-01", "test", "test");
+        const resultL = await getTimes({
+            mode: "L",
+            date: "1970-01-01",
+            cinema: "test|test",
+            movie: "test",
+        });
+        const resultM = await getTimes({
+            mode: "M",
+            date: "1970-01-01",
+            cinema: "test",
+            movie: "test",
+        });
         // expect(resultC).toEqual({ time: [] });
         expect(resultL).toEqual({ time: [] });
         expect(resultM).toEqual({ time: [] });
     });
     test("잘못된 요청에 대해 빈 배열을 반환한다 - 영화 형식", async () => {
-        const resultC = await getTimes("C", "1970-01-01", "test", 1234);
-        const resultL = await getTimes(
-            "L",
-            "1970-01-01",
-            "test|test|test",
-            5678
-        );
-        const resultM = await getTimes("M", "1970-01-01", "test/test", 9999);
+        const resultC = await getTimes({
+            mode: "C",
+            date: "1970-01-01",
+            cinema: "test",
+            movie: 1234,
+        });
+        const resultL = await getTimes({
+            mode: "L",
+            date: "1970-01-01",
+            cinema: "test|test|test",
+            movie: 5678,
+        });
+        const resultM = await getTimes({
+            mode: "M",
+            date: "1970-01-01",
+            cinema: "test/test",
+            movie: 9999,
+        });
         expect(resultC).toEqual({ time: [] });
         expect(resultL).toEqual({ time: [] });
         expect(resultM).toEqual({ time: [] });
     });
     test("잘못된 반환에 대해 빈 배열을 반환한다", async () => {
         axios.post.mockResolvedValue({ status: 500 });
-        const resultC = await getTimes("C", "1970-01-01", "test", "test");
-        const resultL = await getTimes(
-            "L",
-            "1970-01-01",
-            "test|test|test",
-            "test"
-        );
-        const resultM = await getTimes("M", "1970-01-01", "test/test", "test");
+        const resultC = await getTimes({
+            mode: "C",
+            date: "1970-01-01",
+            cinema: "test",
+            movie: "test",
+        });
+        const resultL = await getTimes({
+            mode: "L",
+            date: "1970-01-01",
+            cinema: "test|test|test",
+            movie: "test",
+        });
+        const resultM = await getTimes({
+            mode: "M",
+            date: "1970-01-01",
+            cinema: "test/test",
+            movie: "test",
+        });
         expect(resultC).toEqual({ time: [] });
         expect(resultL).toEqual({ time: [] });
         expect(resultM).toEqual({ time: [] });
