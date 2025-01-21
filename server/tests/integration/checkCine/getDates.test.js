@@ -1,4 +1,4 @@
-const { getDates } = require("../../src/services/v1/checkCine/date");
+const { getDates } = require("../../../src/services/v1/checkCine/date");
 const axios = require("axios");
 jest.mock("axios");
 

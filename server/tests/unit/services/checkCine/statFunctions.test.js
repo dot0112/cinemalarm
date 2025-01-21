@@ -2,7 +2,7 @@ const {
     statC,
     statL,
     statM,
-} = require("../../../src/services/v1/checkCine/stat"); // 실제 경로에 맞게 조정
+} = require("../../../../src/services/v1/checkCine/stat"); // 실제 경로에 맞게 조정
 const axios = require("axios");
 const FormData = require("form-data");
 jest.mock("axios"); // axios를 mock하여 테스트 환경에 맞게 조정

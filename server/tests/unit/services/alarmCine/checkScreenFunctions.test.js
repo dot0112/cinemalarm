@@ -1,9 +1,9 @@
-require("../../../src/utils/errorLogger");
+require("../../../../src/utils/errorLogger");
 const {
     checkScreenC,
     checkScreenL,
     checkScreenM,
-} = require("../../../src/services/v1/alarmCine/checkAvailableScreen");
+} = require("../../../../src/services/v1/alarmCine/checkAvailableScreen");
 
 const axios = require("axios");
 const FormData = require("form-data");

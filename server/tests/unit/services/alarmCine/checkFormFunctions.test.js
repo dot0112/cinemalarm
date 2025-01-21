@@ -1,9 +1,9 @@
-require("../../../src/utils/errorLogger");
+require("../../../../src/utils/errorLogger");
 const {
     checkFormC,
     checkFormL,
     checkFormM,
-} = require("../../../src/services/v1/alarmCine/checkValidForm");
+} = require("../../../../src/services/v1/alarmCine/checkValidForm");
 
 describe("checkFormFunctions 테스트", () => {
     test("checkFormC는 입력된 데이터가 CGV API의 형식에 맞는지 확인한다", () => {

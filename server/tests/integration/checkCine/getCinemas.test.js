@@ -1,12 +1,12 @@
-require("../../src/utils/errorLogger");
-const { getCinemas } = require("../../src/services/v1/checkCine/cinema");
-const cinemaLModel = require("../../src/models/cinema/cinemaL");
+require("../../../src/utils/errorLogger");
+const { getCinemas } = require("../../../src/services/v1/checkCine/cinema");
+const cinemaLModel = require("../../../src/models/cinema/cinemaL");
 
 const axios = require("axios");
 const FormData = require("form-data");
 jest.mock("axios");
 jest.mock("form-data");
-jest.mock("../../src/models/cinema/cinemaL");
+jest.mock("../../../src/models/cinema/cinemaL");
 
 global.bodyGenerator = jest.fn();
 

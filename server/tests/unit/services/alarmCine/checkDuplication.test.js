@@ -1,10 +1,10 @@
-require("../../../src/utils/errorLogger");
-const cinemalarmModel = require("../../../src/models/cinemalarm");
+require("../../../../src/utils/errorLogger");
+const cinemalarmModel = require("../../../../src/models/cinemalarm");
 const {
     checkDuplication,
-} = require("../../../src/services/v1/alarmCine/checkDuplication");
+} = require("../../../../src/services/v1/alarmCine/checkDuplication");
 
-jest.mock("../../../src/models/cinemalarm");
+jest.mock("../../../../src/models/cinemalarm");
 
 describe("checkDuplication 테스트", () => {
     test("checkDuplication은 중복되는 요소가 없으면 true를 반환한다", async () => {

@@ -1,13 +1,13 @@
-require("../../src/utils/errorLogger");
-const { register } = require("../../src/services/v1/alarmCine/register");
-const cinemalarmModel = require("../../src/models/cinemalarm");
+require("../../../src/utils/errorLogger");
+const { register } = require("../../../src/services/v1/alarmCine/register");
+const cinemalarmModel = require("../../../src/models/cinemalarm");
 
 const axios = require("axios");
 const FormData = require("form-data");
 jest.mock("axios");
 jest.mock("form-data");
 
-jest.mock("../../src/models/cinemalarm", () => {
+jest.mock("../../../src/models/cinemalarm", () => {
     const mockModel = jest.fn();
     mockModel.findOne = jest.fn();
     return mockModel;
