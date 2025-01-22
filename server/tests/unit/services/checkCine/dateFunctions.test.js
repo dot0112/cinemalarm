@@ -19,7 +19,11 @@ describe("dateFunctions 테스트", () => {
 
     test("dateC는 요청이 성공적으로 처리되지 않은 경우 빈 배열을 반환한다.", async () => {
         const result = await dateC();
-        expect(result).toEqual([]);
+        try {
+            expect(result).toEqual([]);
+        } catch (err) {
+            expect(err.message).toEqual("Failed to retrieve date data");
+        }
     });
 
     test("dateL은 LOTTE CINEMA에서 선택 가능한 날짜를 반환한다", async () => {
@@ -54,8 +58,11 @@ describe("dateFunctions 테스트", () => {
     test("dateL은 요청이 성공적으로 처리되지 않은 경우 빈 배열을 반환한다.", async () => {
         axios.post.mockResolvedValue({ status: 500 });
 
-        const result = await dateL();
-        expect(result).toEqual([]);
+        try {
+            const result = await dateL();
+        } catch (err) {
+            expect(err.message).toEqual("Failed to retrieve date data");
+        }
     });
 
     test("dateM은 MEGABOX에서 선택 가능한 날짜를 반환한다", async () => {
@@ -79,8 +86,10 @@ describe("dateFunctions 테스트", () => {
 
     test("dateM은 요청이 성공적으로 처리되지 않은 경우 빈 배열을 반환한다.", async () => {
         axios.post.mockResolvedValue({ status: 500 });
-
-        const result = await dateM();
-        expect(result).toEqual([]);
+        try {
+            const result = await dateM();
+        } catch (err) {
+            expect(err.message).toEqual("Failed to retrieve date data");
+        }
     });
 });

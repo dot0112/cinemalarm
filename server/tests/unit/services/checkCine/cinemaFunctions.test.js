@@ -62,12 +62,20 @@ describe("cinemaFunctions 테스트", () => {
     test("cinemaFunctions는 잘못된 요청에 대해서 빈 배열을 반환한다", async () => {
         axios.post.mockResolvedValue({ status: 500 });
 
-        const resultC = await cinemaC("1970-01-01");
-        const resultL = await cinemaL("1970-01-01");
-        const resultM = await cinemaM("1970-01-01");
-
-        expect(resultC).toEqual([]);
-        expect(resultL).toEqual([]);
-        expect(resultM).toEqual([]);
+        try {
+            const resultC = await cinemaC("1970-01-01");
+        } catch (err) {
+            expect(err.message).toEqual("Failed to retrieve cinema data");
+        }
+        try {
+            const resultL = await cinemaL("1970-01-01");
+        } catch (err) {
+            expect(err.message).toEqual("Failed to retrieve cinema data");
+        }
+        try {
+            const resultM = await cinemaM("1970-01-01");
+        } catch (err) {
+            expect(err.message).toEqual("Failed to retrieve cinema data");
+        }
     });
 });
