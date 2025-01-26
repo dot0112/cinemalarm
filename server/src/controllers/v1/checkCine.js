@@ -39,11 +39,11 @@ const date = async (req, res) => {
 
 const cinema = async (req, res) => {
     try {
-        const dto = new CreateCheckCineRequestDto(req.body);
-        dto.validate("cinema");
+        const requestDto = new CreateCheckCineRequestDto(req.body);
+        requestDto.validate("cinema");
         const result = await cinemaService.getCinemas({
-            mode: dto.mode,
-            date: dto.date,
+            mode: requestDto.mode,
+            date: requestDto.date,
         });
         const responseDto = new CreateCheckCineResponseDto({
             status: 200,
@@ -58,12 +58,12 @@ const cinema = async (req, res) => {
 
 const movie = async (req, res) => {
     try {
-        const dto = new CreateCheckCineRequestDto(req.body);
-        dto.validate("movie");
+        const requestDto = new CreateCheckCineRequestDto(req.body);
+        requestDto.validate("movie");
         const result = await movieService.getMovies({
-            mode: dto.mode,
-            date: dto.date,
-            cinema: dto.cinema,
+            mode: requestDto.mode,
+            date: requestDto.date,
+            cinema: requestDto.cinema,
         });
         const responseDto = new CreateCheckCineResponseDto({
             status: 200,
@@ -78,13 +78,13 @@ const movie = async (req, res) => {
 
 const time = async (req, res) => {
     try {
-        const dto = new CreateCheckCineRequestDto(req.body);
-        dto.validate("time");
+        const requestDto = new CreateCheckCineRequestDto(req.body);
+        requestDto.validate("time");
         const result = await timeService.getTimes({
-            mode: dto.mode,
-            date: dto.date,
-            cinema: dto.cinema,
-            movie: dto.movie,
+            mode: requestDto.mode,
+            date: requestDto.date,
+            cinema: requestDto.cinema,
+            movie: requestDto.movie,
         });
         const responseDto = new CreateCheckCineResponseDto({
             status: 200,

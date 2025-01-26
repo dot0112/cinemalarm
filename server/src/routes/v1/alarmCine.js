@@ -1,4 +1,5 @@
 const express = require("express");
+const alarmCineController = require("../../controllers/v1/alarmCine");
 
 const router = express.Router();
 
@@ -7,13 +8,11 @@ const router = express.Router();
  */
 
 router.post("/register", (req, res) => {
-    console.log(req.body);
-    res.json({ message: "Register endpoint hit", received: req.body });
+    alarmCineController.register(req, res);
 });
 
 router.post("/unregister", (req, res) => {
-    console.log(req.body);
-    res.json({ message: "Unregister endpoint hit", received: req.body });
+    alarmCineController.unregister(req, res);
 });
 
 module.exports = router;
