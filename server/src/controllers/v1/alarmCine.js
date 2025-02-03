@@ -8,7 +8,7 @@ const register = async (req, res) => {
     try {
         const requestDto = new CreateAlarmCineRequestDto(req.body);
         requestDto.validate("register");
-        await registerService.register({
+        const result = await registerService.register({
             uuid: requestDto.uuid,
             multiplex: requestDto.mode,
             date: requestDto.date,
@@ -17,8 +17,10 @@ const register = async (req, res) => {
             time: requestDto.time,
         });
         const responseDto = new CreateAlarmCineResponseDto({
-            status: 200,
-            message: "success",
+            status: result.status,
+            message: result.message,
+            data: result.data,
+            error: result.error,
         });
         res.status(responseDto.status).json(responseDto);
     } catch (err) {
@@ -30,7 +32,7 @@ const unregister = async (req, res) => {
     try {
         const requestDto = new CreateAlarmCineRequestDto(req.body);
         requestDto.validate("unregister");
-        await unregisterService.unregister({
+        const result = await unregisterService.unregister({
             uuid: requestDto.uuid,
             multiplex: requestDto.mode,
             date: requestDto.date,
@@ -39,8 +41,10 @@ const unregister = async (req, res) => {
             time: requestDto.time,
         });
         const responseDto = new CreateAlarmCineResponseDto({
-            status: 200,
-            message: "success",
+            status: result.status,
+            message: result.message,
+            data: result.data,
+            error: result.error,
         });
         res.status(responseDto.status).json(responseDto);
     } catch (err) {

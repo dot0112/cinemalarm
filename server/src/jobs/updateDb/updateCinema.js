@@ -129,7 +129,12 @@ const updateCinemaC = async () => {
 const updateCinemaL = async () => {
     let count = 0;
     const formData = new FormData();
-    formData.append("paramList", JSON.stringify(global.bodyGenerator("L")));
+    formData.append(
+        "paramList",
+        JSON.stringify(
+            global.bodyGenerator("L", { MethodName: "GetTicketingPageTOBE" })
+        )
+    );
     try {
         const response = await axios.post(
             `${process.env.LOTTECINEMA_URL}`,

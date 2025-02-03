@@ -1,10 +1,11 @@
 const checkString = (object) => {
-    for (const value of Object.values(object)) {
-        if (typeof value !== "string" || value.trim() === "") {
-            return false;
+    const notStringParams = [];
+    for (const key of Object.keys(object)) {
+        if (typeof object[key] !== "string" || object[key].trim() === "") {
+            notStringParams.push(key);
         }
     }
-    return true;
+    return notStringParams;
 };
 
 const checkDate = (date) => {
@@ -27,11 +28,14 @@ const checkFormC = ({ cinema, movie, time }) => {
     const cinemaRegex = /^[^\s]+$/;
     const movieRegex = /^[^\s]+$/;
     const timeRegex = /^[^\s]+$/;
-    return (
-        cinemaRegex.test(cinema) &&
-        movieRegex.test(movie) &&
-        timeRegex.test(time)
-    );
+
+    const errors = [];
+
+    if (!cinemaRegex.test(cinema)) errors.push("cinema");
+    if (!movieRegex.test(movie)) errors.push("movie");
+    if (!timeRegex.test(time)) errors.push("time");
+
+    return errors;
 };
 
 const checkFormL = ({ cinema, movie, time }) => {
@@ -45,11 +49,14 @@ const checkFormL = ({ cinema, movie, time }) => {
     const cinemaRegex = /^[^\s]+\|[^\s]+\|[^\s]+$/;
     const movieRegex = /^[^\s]+$/;
     const timeRegex = /^[^\s]+\:[^\s]+\/[^\s]+\:[^\s]+\/[^\s]+$/;
-    return (
-        cinemaRegex.test(cinema) &&
-        movieRegex.test(movie) &&
-        timeRegex.test(time)
-    );
+
+    const errors = [];
+
+    if (!cinemaRegex.test(cinema)) errors.push("cinema");
+    if (!movieRegex.test(movie)) errors.push("movie");
+    if (!timeRegex.test(time)) errors.push("time");
+
+    return errors;
 };
 
 const checkFormM = ({ cinema, movie, time }) => {
@@ -63,11 +70,14 @@ const checkFormM = ({ cinema, movie, time }) => {
     const cinemaRegex = /^[^\s]+\/[^\s]+$/;
     const movieRegex = /^[^\s]+$/;
     const timeRegex = /^[^\s]+\:[^\s]+\/[^\s]+\:[^\s]+\/[^\s]+$/;
-    return (
-        cinemaRegex.test(cinema) &&
-        movieRegex.test(movie) &&
-        timeRegex.test(time)
-    );
+
+    const errors = [];
+
+    if (!cinemaRegex.test(cinema)) errors.push("cinema");
+    if (!movieRegex.test(movie)) errors.push("movie");
+    if (!timeRegex.test(time)) errors.push("time");
+
+    return errors;
 };
 
 const checkFormFunctions = {
@@ -77,27 +87,49 @@ const checkFormFunctions = {
 };
 
 const checkValidForm = (object) => {
+    const result = {
+        status: "success",
+        error: {},
+    };
     try {
         // Parameter 전달 확인
         const { uuid, multiplex, date, cinema, movie, time } = object;
-        if (!uuid || !multiplex || !date || !cinema || !movie || !time) {
+
+        const requiredParams = [
+            "uuid",
+            "multiplex",
+            "date",
+            "cinema",
+            "movie",
+            "time",
+        ];
+        const missingParams = requiredParams.filter((param) => !object[param]);
+        if (missingParams.length > 0) {
+            result.error = Object.fromEntries(
+                missingParams.map((param) => [param, true])
+            );
             throw new Error("Missing required parameters");
         }
 
         // Parameter 자료형 확인
         const checkStringResult = checkString(object);
-        if (!checkStringResult) {
+        if (checkStringResult.length > 0) {
+            result.error = Object.fromEntries(
+                checkStringResult.map((param) => [param, true])
+            );
             throw new Error("Invalid type of parameter");
         }
 
         // 날짜 형식 확인
         const checkDateResult = checkDate(date);
         if (!checkDateResult) {
+            result.error["date"] = true;
             throw new Error(`Invalid date format: ${date}`);
         }
 
         // Multiplex 기호 확인
         if (!(multiplex in checkFormFunctions)) {
+            result.error["multiplex"] = true;
             throw new Error(`Invalid multiplex: ${multiplex}`);
         }
 
@@ -107,15 +139,19 @@ const checkValidForm = (object) => {
             movie: movie,
             time: time,
         });
-        if (!checkFormResult) {
+        if (checkFormResult.length > 0) {
+            result.error = Object.fromEntries(
+                checkFormResult.map((param) => [param, true])
+            );
             throw new Error("Invalid form of parameter");
         }
 
-        return true;
+        return result;
     } catch (err) {
         global.errorLogger(err);
+        result.status = err.message;
     }
-    return false;
+    return result;
 };
 
 module.exports = { checkValidForm, checkFormC, checkFormL, checkFormM };
